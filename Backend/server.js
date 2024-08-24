@@ -3,23 +3,22 @@ require('dotenv').config();
 const express = require('express');
 
 
+const { connectDB } = require('./DB/connectDB');
+const authRoutes = require('./routes/auth.route');
+
 
 //create express app
 const app = express();
 
 //middleware
-app.use((req, res, next) => {
-    console.log(req.path, req.method);
-    next();
-});
+app.use(express.json()); //parse json bodies
 
 //routes
-app.get('/', (req, res) => {
-    res.json({ message: "Welcome to the application." });
-});
+app.use('/api/auth', authRoutes);
 
 //listen for requests
 app.listen(process.env.PORT, () => {
+    connectDB();
     console.log("listening on port 4000");
 });
 
