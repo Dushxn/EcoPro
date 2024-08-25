@@ -2,6 +2,7 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const { generateTokenAndSetCookie } = require("../utils/generateTokenAndSetCookie");
+const { sendVerificationEmail , sendWelcomeEmail} = require("../mailtrap/email");
 
 const signup = async (req, res) => {
     
@@ -11,7 +12,7 @@ try {
         
     if(!name || !email || !password) {
         return res.status(400).json({ message: "All fields are required" });
-    }
+    ``}
 
     const userAlreadyExists = await User.findOne({ email });
     if(userAlreadyExists) {
@@ -34,6 +35,8 @@ try {
     //jwt
     generateTokenAndSetCookie(res, user._id);
 
+    await sendVerificationEmail(user.email, verificationToken);
+
     res.status(201).json({ 
         success: true,
         message: "User registered successfully",
@@ -51,7 +54,31 @@ try {
 };
 
 
+const verifyEmail = async (req, res) => {
 
+    const {code} = req.body;
+    try {
+        
+        const user = await User.findOne({ 
+            verificationToken: code, 
+            verificationExpire: { $gt: Date.now() } 
+        });
+
+        if(!user) {
+            return res.status(400).json({ message: "Invalid or expired verification code" });
+        }
+
+        user.isVerified = true;
+        user.verificationToken = undefined;
+        user.verificationExpire = undefined;
+        await user.save();
+
+        await sendWelcomeEmail(user.email, user.name);
+
+    } catch (error) {
+        throw new Error(error.message );
+    }
+};
 
 const login = async (req, res) => {
     res.send("Login route");
@@ -61,4 +88,4 @@ const logout = async (req, res) => {
     res.send("Logout route");
 };
 
-module.exports = { signup, login, logout };
+module.exports = { signup, login, logout, verifyEmail };
