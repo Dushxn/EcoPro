@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import './App.css'
+import FileUpload from './Components/FileUpload'
 
 function App() {
 
   return (
     <>
       <div className=''>
-        <h1 className=' text-5xl font-bold'>Hello</h1>
+        Hello
       </div>
     </>
   )

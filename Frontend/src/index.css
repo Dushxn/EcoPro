@@ -6,3 +6,11 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.Navbar {
+    border-radius: 0 0 10px 10px;
+}
+
+.Wrapper{
+    border: lightgreen solid 1px;
+}

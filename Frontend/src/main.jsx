@@ -6,6 +6,8 @@ import './index.css';
 
 import Header from './shared/Header.jsx';
 import Footer from './shared/Footer.jsx';
+import DiseaseResult from './Components/DiseaseResult.jsx';
+import FileUpload from './Components/FileUpload.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,7 +17,8 @@ createRoot(document.getElementById('root')).render(
         <main className="flex-grow">
           <Routes>
             <Route path='/' element={<App />} />
-            {/* Add more routes here */}
+            <Route path='/diseaseResult' element={<DiseaseResult />} />
+            <Route path='/detectDisease' element={<FileUpload />} />
           </Routes>
         </main>
         <Footer />
