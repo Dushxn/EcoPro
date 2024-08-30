@@ -26,7 +26,7 @@ const DiseaseResult = () => {
                         {disease.similar_images.map((img, imgIndex) => (
                           <div key={imgIndex} className="rounded-lg overflow-hidden">
                             <img
-                              src={img.url_small}
+                              src={img.url}
                               alt={`Similar ${imgIndex}`}
                               className="w-60 h-60 object-cover rounded-lg"
                             />
@@ -46,7 +46,7 @@ const DiseaseResult = () => {
           ) : (
             <p className="text-gray-500 mt-4">No disease detected.</p>
           )}
-          {result.crop && result.crop.suggestions && result.crop.suggestions.length > 0 && (
+          {/* {result.crop && result.crop.suggestions && result.crop.suggestions.length > 0 && (
             <div className="mt-10">
               <h3 className="text-lg font-semibold text-gray-700">Crop Suggestions</h3>
               <ul className="list-disc list-inside mt-2 text-gray-600">
@@ -55,7 +55,7 @@ const DiseaseResult = () => {
                 ))}
               </ul>
             </div>
-          )}
+          )} */}
         </div>
       ) : (
         <p className="text-gray-500 text-center mt-6">No results available.</p>
