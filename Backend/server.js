@@ -9,7 +9,7 @@ const diseaseRoute = require('./routes/disease.route');
 const app = express();
 
 // Middleware
-app.use(express.json()); // Parse JSON bodies
+app.use(express.json()); 
 
 // Setup CORS
 app.use(cors({
