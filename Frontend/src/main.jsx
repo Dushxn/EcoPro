@@ -9,6 +9,19 @@ import Footer from './shared/Footer.jsx';
 import DiseaseResult from './Components/DiseaseResult.jsx';
 import FileUpload from './Components/FileUpload.jsx';
 
+//Yasasi
+import FertilizerList from './Components/FertilizerList.jsx';
+import AddFertilizerForm from './Components/AddFertilizerForm.jsx';
+import UpdateFertilizerForm from './Components/UpdateFertilizerForm.jsx';
+
+//Kavishka
+import DashBoard from "./Components/Inventory/Admin/DashBoard/DashBoard";
+import Additem from "./Components/Inventory/Admin/AddItem/Additem";
+import UpdateItem from "./Components/Inventory/Admin/UpdateItem/UpdateItem";
+import DetailsDash from "./Components/Inventory/User/DetailsDash/DetailsDash";
+
+
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
@@ -19,6 +32,21 @@ createRoot(document.getElementById('root')).render(
             <Route path='/' element={<App />} />
             <Route path='/diseaseResult' element={<DiseaseResult />} />
             <Route path='/detectDisease' element={<FileUpload />} />
+
+            {/*Yasasi*/}
+            <Route path='/manageFertilizers' element={<FertilizerList />}/>
+            <Route path='/addFertilizers' element={<AddFertilizerForm />}/>
+            <Route path='/updateFertilizer/:id' element={<UpdateFertilizerForm />}/>
+
+            {/*Kavishka*/}
+             {/*Admin Side*/}
+          <Route path="/inventory" element={<DashBoard />} />
+          <Route path="/additem" element={<Additem />} />
+      
+          <Route path="/updateitem/:id" element={<UpdateItem />} />
+          {/*User Side*/}
+          <Route path="/userdetailsdash" element={<DetailsDash />} />
+
           </Routes>
         </main>
         <Footer />
