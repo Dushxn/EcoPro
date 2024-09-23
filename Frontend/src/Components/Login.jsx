@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { loginSuccess } from '../redux/auth/authSlice';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [alertType, setAlertType] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate(); // Initialize navigate hook
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,9 +19,23 @@ const Login = () => {
             const response = await axios.post('http://localhost:4000/api/auth/login', { email, password }, { withCredentials: true });
             setMessage(response.data.message);
             setAlertType('success');
-            // Refresh the form or redirect
+            // Refresh the form
             setEmail('');
             setPassword('');
+
+            // Dispatch the login action
+            dispatch(loginSuccess(response.data.user));
+
+            // Optionally save user data to local storage
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+
+            // Redirect to /profile after successful login
+            if (response.data.user.userType === 'Seller') {
+                navigate('/sellerProfile');
+            } else { // Redirect to /profile if the user is not a seller
+                navigate('/profile');
+            }
+
             console.log(response);
         } catch (error) {
             setMessage(error.response.data.message || 'An error occurred');
@@ -67,6 +86,6 @@ const Login = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Login;

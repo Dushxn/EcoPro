@@ -23,10 +23,19 @@ import DiseaseDetails from './Components/DiseaseDetails.jsx';
 import Login from './Components/Login.jsx';
 import Signup from './Components/Signup.jsx';
 
+//react-redux
+import store from './redux/store.js';
+import { Provider } from 'react-redux';
+import Profile from './Components/Profile.jsx';
+import SellerProfile from './Components/SellerProfile.jsx';
+import AboutUs from './Components/AboutUs.jsx';
+
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <Provider store={store}>
+
     <Router>
       <div className="flex flex-col min-h-screen">
         <Header />
@@ -38,6 +47,9 @@ createRoot(document.getElementById('root')).render(
             <Route path='/disease-details' element={<DiseaseDetails />} />
             <Route path='/login' element={<Login/>}/>
             <Route path='/signup' element={<Signup/>}/>
+            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/sellerProfile' element={<SellerProfile/>}/>
+            <Route path='/aboutus' element={<AboutUs/>}/>
 
             {/*Yasasi*/}
             <Route path='/manageFertilizers' element={<FertilizerList />}/>
@@ -58,5 +70,6 @@ createRoot(document.getElementById('root')).render(
         <Footer />
       </div>
     </Router>
+    </Provider>
   </StrictMode>
 );
