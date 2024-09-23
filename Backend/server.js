@@ -6,6 +6,8 @@ const authRoutes = require('./routes/auth.route');
 const diseaseRoute = require('./routes/disease.route');
 const fertilizerRoutes = require('./routes/fertilizer.route');
 const InventoryRoute = require('./routes/InventoryRoutes');
+const { openAI } = require('openai');
+const moredetailsRoute = require('./routes/moreDetails.route');
 
 // Create express app
 const app = express();
@@ -18,7 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: 'http://localhost:5173',  // Your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true, 
 }));
 
 // Routes
@@ -26,6 +29,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/disease', diseaseRoute);
 app.use('/api/products', fertilizerRoutes);
 app.use("/inventory", InventoryRoute);
+app.use('/api/more', moredetailsRoute);
 
 // Listen for requests
 app.listen(process.env.PORT || 4000, () => {
