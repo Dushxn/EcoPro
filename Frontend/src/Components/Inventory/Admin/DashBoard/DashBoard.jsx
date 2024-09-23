@@ -11,47 +11,40 @@ const fetchHandler = async () => {
   return await axios.get(URL).then((res) => res.data);
 };
 
-//----------------------------------------------------------------
 function DashBoard() {
-  //fetch data
   const [inven, setInven] = useState([]);
 
   useEffect(() => {
     fetchHandler().then((data) => setInven(data.inven));
   }, []);
 
-  // Function to calculate the total amount
-  const [totalAmount, setTotalAmount] = useState(0); // State to store the total amount
+  const [totalAmount, setTotalAmount] = useState(0);
   useEffect(() => {
     let sum = 0;
     inven.forEach((item) => {
-      sum += parseInt(item.price); // Convert price to integer and sum up
+      sum += parseInt(item.price);
     });
     setTotalAmount(sum);
   }, [inven]);
 
-  /*Delete Function */
   const history = useNavigate();
   const deleteHandler = async (_id) => {
-    // Define _id as a parameter
     const confirmed = window.confirm(
       "Are you sure you want to delete this Details?"
     );
 
     if (confirmed) {
       try {
-        await axios.delete(`${URL}/${_id}`); // Correct URL construction
+        await axios.delete(`${URL}/${_id}`);
         window.alert("details deleted successfully!");
-        history("/");
-        window.location.reload(); // Reload the page
+        history("/inventory");
+        window.location.reload();
       } catch (error) {
-        // Handle deletion error if needed
         console.error("Error deleting details:", error);
       }
     }
   };
 
-  /*PDF Function */
   const ComponentsRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => ComponentsRef.current,
@@ -59,7 +52,6 @@ function DashBoard() {
     onafterprint: () => alert(" Details Report Successfully Download !"),
   });
 
-  /*Search Function */
   const [searchQuery, setSearchQuery] = useState("");
   const [noResults, setNoResults] = useState(false);
 
@@ -75,10 +67,8 @@ function DashBoard() {
     });
   };
 
-  //function for get curent date  for send whatsapp message
   const [currentDate, setCurrentDate] = useState("");
   useEffect(() => {
-    // Function to get the current date and format it
     const getCurrentDate = () => {
       const dateObj = new Date();
       const month = dateObj.getMonth() + 1;
@@ -93,46 +83,39 @@ function DashBoard() {
     return () => clearInterval(intervalId);
   }, []);
 
-  /*Send  WhatsApp*/
-  const handleSendReport = () => {
-    //Create the WhatsApp Chat URL
-    const phoneNumber = "+94776827697";
-    const message = `Total Amount =  Rs.${totalAmount}.00 --> date = ${currentDate}`;
-    const WhatsAppUrl = `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
-      message
-    )}`;
-
-    //open the whatsapp chat in new Window
-    window.open(WhatsAppUrl, "_blank");
-  };
-
-  //item count
   const availableItemCount = inven.length;
+
   return (
     <div>
-    
       <div className="children_div_admin">
         <div className="dash_button_set">
-         
+          {/* Tailwind styled button */}
+          
         </div>
 
         <div className="tbl_con_admin" ref={ComponentsRef}>
           <h1 className="topic_inventory">
             Community Details <span className="sub_topic_inventory"> </span>{" "}
           </h1>
-        
-          <table className="table_details_admin">
+
+          <div className="flex justify-end mb-4 ">
+            <button
+              className="bg-black font-bold py-2 px-4 rounded text-green-400"
+              onClick={() => history("/additem")}
+            >
+              Add New Item
+            </button>
+          </div>
+
+          <table className="table_details_admin mb-20">
             <thead>
               <tr className="admin_tbl_tr">
                 <th className="admin_tbl_th">User's Name</th>
                 <th className="admin_tbl_th">Plant title</th>
                 <th className="admin_tbl_th">Image</th>
-                
                 <th className="admin_tbl_th">Plant Description</th>
                 <th className="admin_tbl_th">Plant fertilizes</th>
                 <th className="admin_tbl_th">How the work done</th>
-              
-            
                 <th className="admin_tbl_th">Action</th>
               </tr>
             </thead>
@@ -147,10 +130,8 @@ function DashBoard() {
               <tbody>
                 {inven.map((item, index) => (
                   <tr className="admin_tbl_tr" key={index}>
-
                     <td className="admin_tbl_td">{item.amount}</td>
                     <td className="admin_tbl_td">{item.price}</td>
-
                     <td className="admin_tbl_td">
                       <img
                         src={item.imgurl}
@@ -158,21 +139,16 @@ function DashBoard() {
                         className="img_admin_tbl"
                       />
                     </td>
-                  
-                 
                     <td className="admin_tbl_td">{item.name}</td>
                     <td className="admin_tbl_td">{item.material}</td>
                     <td className="admin_tbl_td">{item.color}</td>
-                   
-                    
                     <td className="admin_tbl_td">
                       <button
                         onClick={() => deleteHandler(item._id)}
-                        className="btn_dash_admin_dlt"
+                        className="btn_dash_admin_dlt mb-5"
                       >
                         Delete
                       </button>{" "}
-                      {/* Pass item._id to deleteHandler */}
                       <Link
                         to={`/updateitem/${item._id}`}
                         className="btn_dash_admin"

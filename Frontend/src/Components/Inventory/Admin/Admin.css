@@ -25,9 +25,9 @@
 }
 
 .btn_dash_admin {
-  background-color: #1b4850;
-  color: white;
-  border: 2px solid #1b4850;
+  background-color: #000000;
+  color: lightgreen;
+  border: 2px solid #000000;
   font-size: 20px;
   cursor: pointer;
   border-radius: 3px;
@@ -39,9 +39,9 @@
 }
 
 .btn_dash_admin_dlt {
-  background-color: red;
-  color: white;
-  border: 2px solid red;
+  background-color: black;
+  color: lightgreen;
+  border: 2px solid black;
   font-size: 20px;
   cursor: pointer;
   border-radius: 3px;
@@ -101,12 +101,12 @@
 
 .table_details_admin .admin_tbl_th,
 .table_details_admin .admin_tbl_td {
-  border: 2px solid #1b4850;
+  border: 2px solid #000000;
   padding: 8px;
 }
 
 .table_details_admin .admin_tbl_th {
-  background-color: #1b4850;
+  background-color: #000000;
   color: white;
   font-size: 18px;
 }

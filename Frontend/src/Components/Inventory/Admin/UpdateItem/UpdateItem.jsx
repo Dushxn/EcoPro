@@ -48,7 +48,7 @@ function UpdateItem() {
 
     sendRequest().then(() => {
       window.alert("Update successfully!");
-      history("/");
+      history("/inventory");
     });
   };
   return (

@@ -63,7 +63,7 @@ const FertilizerList = () => {
             <tr key={fertilizer._id} className="border-t border-gray-200 hover:bg-gray-100">
               <td className="py-3 px-4">{fertilizer.title}</td>
               <td className="py-3 px-4">{fertilizer.des}</td>
-              <td className="py-3 px-4">{fertilizer.price}</td>
+              <td className="py-3 px-4">Rs.{fertilizer.price}</td>
               <td className="py-3 px-4">{fertilizer.stock}</td>
               <td className="py-3 px-4">
                 <img

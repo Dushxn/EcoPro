@@ -13,6 +13,7 @@ const UpdateFertilizerForm = () => {
     image: null,
   });
   const [message, setMessage] = useState('');
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +30,22 @@ const UpdateFertilizerForm = () => {
     }
   };
 
+  const validate = () => {
+    let errors = {};
+    if (!formData.title.trim()) errors.title = 'Title is required.';
+    else if (!/^[a-zA-Z0-9\s]+$/.test(formData.title)) errors.title = 'Title can only contain letters and numbers.';
+
+    if (!formData.des.trim()) errors.des = 'Description is required.';
+    else if (!/^[a-zA-Z0-9\s]+$/.test(formData.des)) errors.des = 'Description can only contain letters and numbers.';
+
+    if (!formData.price || formData.price <= 0) errors.price = 'Price must be a positive number.';
+    
+    if (!formData.stock || formData.stock <= 0) errors.stock = 'Stock must be a positive number.';
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'image') {
@@ -40,6 +57,8 @@ const UpdateFertilizerForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) return; // Check validation before submission
+
     const data = new FormData();
     data.append('title', formData.title);
     data.append('des', formData.des);
@@ -81,6 +100,7 @@ const UpdateFertilizerForm = () => {
             placeholder="Enter fertilizer title"
             required
           />
+          {errors.title && <p className="text-red-500 text-xs italic">{errors.title}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="des">
@@ -94,6 +114,7 @@ const UpdateFertilizerForm = () => {
             placeholder="Enter description"
             required
           />
+          {errors.des && <p className="text-red-500 text-xs italic">{errors.des}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
@@ -108,6 +129,7 @@ const UpdateFertilizerForm = () => {
             placeholder="Enter price"
             required
           />
+          {errors.price && <p className="text-red-500 text-xs italic">{errors.price}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="stock">
@@ -122,6 +144,7 @@ const UpdateFertilizerForm = () => {
             placeholder="Enter stock quantity"
             required
           />
+          {errors.stock && <p className="text-red-500 text-xs italic">{errors.stock}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">

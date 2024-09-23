@@ -19,6 +19,9 @@ import DashBoard from "./Components/Inventory/Admin/DashBoard/DashBoard";
 import Additem from "./Components/Inventory/Admin/AddItem/Additem";
 import UpdateItem from "./Components/Inventory/Admin/UpdateItem/UpdateItem";
 import DetailsDash from "./Components/Inventory/User/DetailsDash/DetailsDash";
+import DiseaseDetails from './Components/DiseaseDetails.jsx';
+import Login from './Components/Login.jsx';
+import Signup from './Components/Signup.jsx';
 
 
 
@@ -32,6 +35,9 @@ createRoot(document.getElementById('root')).render(
             <Route path='/' element={<App />} />
             <Route path='/diseaseResult' element={<DiseaseResult />} />
             <Route path='/detectDisease' element={<FileUpload />} />
+            <Route path='/disease-details' element={<DiseaseDetails />} />
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/signup' element={<Signup/>}/>
 
             {/*Yasasi*/}
             <Route path='/manageFertilizers' element={<FertilizerList />}/>

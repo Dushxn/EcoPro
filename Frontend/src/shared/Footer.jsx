@@ -7,7 +7,7 @@ const Footer = () => {
       <div className='bg-black' >
       <div className='flex flex-wrap justify-evenly'>
         <div className=' w-80 h-80 mt-5 text-white'>
-          <h1 className='text-3xl font-medium'>EcoPro</h1>
+          <h1 className='text-3xl font-medium text-green-400'>EcoPro</h1>
           <div className='h-1 w-36 bg-green-10 rounded-full mt-2'></div>
           <ul className='mt-5 text-lg'>
             <li className='mt-3'>Home</li>
@@ -18,7 +18,7 @@ const Footer = () => {
         </div>
 
         <div className='text-white w-80 h-80 mt-5'>
-          <h1 className='text-3xl font-medium'>Get help</h1>
+          <h1 className='text-3xl font-medium text-green-400'>Get help</h1>
           <div className='h-1 w-20 bg-green-10 rounded-full mt-2'></div>
           <ul className='mt-5 text-lg'>
             <li className='mt-3'>FAQ</li>
@@ -29,7 +29,7 @@ const Footer = () => {
         </div>
 
         <div className='text-white w-80 h-80 mt-5'>
-          <h1 className='text-3xl font-medium'>Visit Us</h1>
+          <h1 className='text-3xl font-medium text-green-400'>Visit Us</h1>
           <div className='h-1 w-20 bg-green-10 rounded-full mt-2'></div>
           <ul className='mt-5 text-lg'>
             <li className='mt-3'>236/12</li>
@@ -38,7 +38,7 @@ const Footer = () => {
           </ul>
         </div>
         <div className='text-white w-80 h-80 mt-5'>
-        <h1 className='text-3xl font-medium'>Follow us</h1>
+        <h1 className='text-3xl font-medium text-green-400'>Follow us</h1>
         <div className='h-1 w-20 bg-green-10 rounded-full mt-2'></div>
         <div className='flex flex-wrap'>
           <FaFacebook className='text-4xl mt-5 mx-2 ' />

@@ -1,4 +1,4 @@
-// AddFertilizerForm.jsx
+/// AddFertilizerForm.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,54 @@ const AddFertilizerForm = () => {
   });
 
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // Initialize the navigate function
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
+  const validate = () => {
+    let errors = {};
+
+    // Validate Title: letters and numbers only, at least 3 characters
+    if (!formData.title.trim()) {
+      errors.title = 'Title is required.';
+    } else if (!/^[a-zA-Z0-9\s]+$/.test(formData.title)) {
+      errors.title = 'Title can only contain letters and numbers.';
+    } else if (formData.title.length < 3) {
+      errors.title = 'Title must be at least 3 characters long.';
+    }
+
+    // Validate Description: letters and numbers only, at least 10 characters
+    if (!formData.des.trim()) {
+      errors.des = 'Description is required.';
+    } else if (!/^[a-zA-Z0-9\s]+$/.test(formData.des)) {
+      errors.des = 'Description can only contain letters and numbers.';
+    } else if (formData.des.length < 10) {
+      errors.des = 'Description must be at least 10 characters long.';
+    }
+
+    // Validate Price: positive number
+    if (!formData.price || formData.price <= 0) {
+      errors.price = 'Price must be a positive number.';
+    } else if (isNaN(formData.price)) {
+      errors.price = 'Price must be a valid number.';
+    }
+
+    // Validate Stock: positive integer
+    if (!formData.stock || formData.stock <= 0) {
+      errors.stock = 'Stock must be a positive number.';
+    } else if (!Number.isInteger(Number(formData.stock))) {
+      errors.stock = 'Stock must be a whole number.';
+    }
+
+    // Validate Image: check if an image is selected and if it's a valid type
+    if (!formData.image) {
+      errors.image = 'Image is required.';
+    } else if (!['image/jpeg', 'image/png', 'image/gif'].includes(formData.image.type)) {
+      errors.image = 'Only JPG, PNG, or GIF files are allowed.';
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -26,6 +73,8 @@ const AddFertilizerForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) return; // Check validation before submission
+
     const data = new FormData();
     data.append('title', formData.title);
     data.append('des', formData.des);
@@ -70,6 +119,7 @@ const AddFertilizerForm = () => {
             placeholder="Enter fertilizer title"
             required
           />
+          {errors.title && <p className="text-red-500 text-xs italic">{errors.title}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="des">
@@ -83,6 +133,7 @@ const AddFertilizerForm = () => {
             placeholder="Enter description"
             required
           />
+          {errors.des && <p className="text-red-500 text-xs italic">{errors.des}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
@@ -97,6 +148,7 @@ const AddFertilizerForm = () => {
             placeholder="Enter price"
             required
           />
+          {errors.price && <p className="text-red-500 text-xs italic">{errors.price}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="stock">
@@ -111,6 +163,7 @@ const AddFertilizerForm = () => {
             placeholder="Enter stock quantity"
             required
           />
+          {errors.stock && <p className="text-red-500 text-xs italic">{errors.stock}</p>}
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
@@ -124,6 +177,7 @@ const AddFertilizerForm = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
+          {errors.image && <p className="text-red-500 text-xs italic">{errors.image}</p>}
         </div>
         <div className="flex items-center justify-between">
           <button

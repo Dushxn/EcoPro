@@ -1,9 +1,14 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const DiseaseResult = () => {
   const location = useLocation();
   const { result } = location.state || {};
+  const navigate = useNavigate();
+
+  const handleViewDetails = (scientificName) => {
+    navigate('/disease-details', { state: { scientificName } });
+  };
 
   return (
     <div className="w-1/2 mt-20 mb-20 mx-auto bg p-6 rounded-xl">
@@ -14,11 +19,12 @@ const DiseaseResult = () => {
             <div className="mt-10 space-y-6">
               {result.disease.map((disease, index) => (
                 <div key={index} className="p-6 bg-white rounded-lg  transform transition-transform hover:scale-105"
-                style={{ boxShadow: '0 0px 5px rgba(0, 0, 0, 0.1), 0 0px 5px rgba(0, 0, 0, 0.1)' }}
+                  style={{ boxShadow: '0 0px 5px rgba(0, 0, 0, 0.1), 0 0px 5px rgba(0, 0, 0, 0.1)' }}
                 >
                   <h3 className="text-3xl font-bold mb-4  text-gray-700 text-center">{disease.name}</h3>
                   <p className="text-gray-600 text-center text-lg"><strong>Probability:</strong> {disease.probability.toFixed(2)}</p>
                   <p className="text-gray-600 text-center text-lg"><strong>Scientific Name:</strong> {disease.scientific_name}</p>
+                  
                   {disease.similar_images && disease.similar_images.length > 0 ? (
                     <div>
                       <h4 className="mt-3 font-semibold text-gray-700 text-center text-lg">Similar Images:</h4>
@@ -46,16 +52,6 @@ const DiseaseResult = () => {
           ) : (
             <p className="text-gray-500 mt-4">No disease detected.</p>
           )}
-          {/* {result.crop && result.crop.suggestions && result.crop.suggestions.length > 0 && (
-            <div className="mt-10">
-              <h3 className="text-lg font-semibold text-gray-700">Crop Suggestions</h3>
-              <ul className="list-disc list-inside mt-2 text-gray-600">
-                {result.crop.suggestions.map((suggestion, index) => (
-                  <li key={index}>{suggestion.name}</li>
-                ))}
-              </ul>
-            </div>
-          )} */}
         </div>
       ) : (
         <p className="text-gray-500 text-center mt-6">No results available.</p>
