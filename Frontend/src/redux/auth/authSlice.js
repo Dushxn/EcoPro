@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Check localStorage for existing user data and initialize the state
 const initialState = {
-  user: null, // Will hold the user data after login
-  isAuthenticated: false, // Tracks whether user is authenticated
+  user: JSON.parse(localStorage.getItem('user')) || null,  // Load user data from localStorage if available
+  isAuthenticated: !!localStorage.getItem('user'),  // Set isAuthenticated to true if user data exists
 };
 
 const authSlice = createSlice({
@@ -13,11 +14,13 @@ const authSlice = createSlice({
     loginSuccess: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
+      localStorage.setItem('user', JSON.stringify(action.payload));  // Save user data to localStorage
     },
     // Logout action to remove user data
     logoutSuccess: (state) => {
       state.user = null;
       state.isAuthenticated = false;
+      localStorage.removeItem('user');  // Remove user data from localStorage
     },
   },
 });

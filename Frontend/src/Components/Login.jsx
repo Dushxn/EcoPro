@@ -33,7 +33,7 @@ const Login = () => {
             if (response.data.user.userType === 'Seller') {
                 navigate('/sellerProfile');
             } else { // Redirect to /profile if the user is not a seller
-                navigate('/profile');
+                navigate('/allProducts');
             }
 
             console.log(response);

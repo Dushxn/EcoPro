@@ -1,18 +1,17 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutSuccess } from '../redux/auth/authSlice'; // Assuming this is your logout action
+import { logoutSuccess } from '../redux/auth/authSlice';  // Assuming this is your logout action
 
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // Get user state from Redux store
   const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
-    dispatch(logoutSuccess());  // Dispatch the logout action
-    localStorage.removeItem('user');  // Optionally remove the user from localStorage
+    dispatch(logoutSuccess());  // Dispatch the logout action (removes from both state and localStorage)
     navigate('/login');  // Redirect to login page after logout
   };
 
@@ -25,16 +24,15 @@ const Header = () => {
             <ul className="flex space-x-4 text-white">
               {/* Conditional Rendering Based on User Authentication */}
               {user ? (
-                // Show this menu when the user is logged in
                 <>
                   <Link to="/manageFertilizers">
-                    <li><a href="#" className="hover:font-semibold hover:text-green-400">Fertilizers</a></li>
+                    <li><a className="hover:font-semibold hover:text-green-400">Fertilizers</a></li>
                   </Link>
                   <Link to="/detectDisease">
-                    <li><a href="#" className="hover:font-semibold hover:text-green-400">Pests & Diseases</a></li>
+                    <li><a className="hover:font-semibold hover:text-green-400">Pests & Diseases</a></li>
                   </Link>
-                  <Link to="/inventory">
-                    <li><a href="#" className="hover:font-semibold hover:text-green-400">Community</a></li>
+                  <Link to="/allPosts">
+                    <li><a className="hover:font-semibold hover:text-green-400">Community</a></li>
                   </Link>
                   {/* Logout button */}
                   <li className="ml-auto">
@@ -44,16 +42,15 @@ const Header = () => {
                   </li>
                 </>
               ) : (
-                // Show this menu before login
                 <>
                   <Link to="/">
-                    <li><a href="#" className="hover:font-semibold hover:text-green-400">Home</a></li>
+                    <li><a className="hover:font-semibold hover:text-green-400">Home</a></li>
                   </Link>
                   <Link to="/aboutus">
-                    <li><a href="/aboutus" className="hover:font-semibold hover:text-green-400">About Us</a></li>
+                    <li><a className="hover:font-semibold hover:text-green-400">About Us</a></li>
                   </Link>
                   <Link to="/detectDisease">
-                    <li><a href="#" className="hover:font-semibold hover:text-green-400">Pests & Diseases</a></li>
+                    <li><a className="hover:font-semibold hover:text-green-400">Pests & Diseases</a></li>
                   </Link>
                   {/* Redirect to login */}
                   <li className="ml-auto">
