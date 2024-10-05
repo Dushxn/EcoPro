@@ -1,4 +1,4 @@
-const Inventory = require('../models/InventoryModel');
+const Inventory = require("../models/CommunityModel");
 
 const getAllInventory = async (req, res, next) => {
   let inven;
@@ -18,26 +18,30 @@ const getAllInventory = async (req, res, next) => {
 
 // data Insert
 const addInventory = async (req, res, next) => {
-  const { stockid, supplierid, material, color, amount, price, name, imgurl } =
+  const { fertilizer, work, uname, title, disc, imgurl,pest,pestcontral,challenge,userId } =
     req.body;
 
   let inven;
 
   try {
     inven = new Inventory({
-      stockid,
-      supplierid,
-      material,
-      color,
-      amount,
-      price,
-      name,
+     
+      fertilizer,
+      work,
+      uname,
+      title,
+      disc,
       imgurl,
+      pest,
+      pestcontral,
+      challenge,
+      userId,
     });
     await inven.save();
   } catch (err) {
     console.log(err);
   }
+
   // not insert invens
   if (!inven) {
     return res.status(404).json({ message: "unable to add Inventory" });
@@ -66,21 +70,24 @@ const getById = async (req, res, next) => {
 //Update inven Details
 const updateInventory = async (req, res, next) => {
   const id = req.params.id;
-  const { stockid, supplierid, material, color, amount, price, name, imgurl } =
+  const {  fertilizer, work, uname, title, disc, imgurl,pest,pestcontral,challenge } =
     req.body;
 
   let invens;
 
   try {
     invens = await Inventory.findByIdAndUpdate(id, {
-      stockid: stockid,
-      supplierid: supplierid,
-      material: material,
-      color: color,
-      amount: amount,
-      price: price,
-      name: name,
+     
+      fertilizer: fertilizer,
+      work: work,
+      uname: uname,
+      title: title,
+      disc: disc,
       imgurl: imgurl,
+      pest:pest,
+      pestcontral:pestcontral,
+      challenge:challenge,
+
     });
     invens = await invens.save();
   } catch (err) {

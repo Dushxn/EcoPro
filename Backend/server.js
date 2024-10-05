@@ -5,7 +5,7 @@ const { connectDB } = require('./DB/connectDB');
 const authRoutes = require('./routes/auth.route');
 const diseaseRoute = require('./routes/disease.route');
 const fertilizerRoutes = require('./routes/fertilizer.route');
-const InventoryRoute = require('./routes/InventoryRoutes');
+const InventoryRoute = require('./routes/CommunityRoutes');
 const { openAI } = require('openai');
 const moredetailsRoute = require('./routes/moreDetails.route');
 
@@ -28,7 +28,7 @@ app.use(cors({
 app.use('/api/auth', authRoutes);
 app.use('/api/disease', diseaseRoute);
 app.use('/api/products', fertilizerRoutes);
-app.use("/inventory", InventoryRoute);
+app.use("/community", InventoryRoute);
 app.use('/api/more', moredetailsRoute);
 
 // Listen for requests

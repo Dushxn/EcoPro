@@ -29,6 +29,12 @@ import { Provider } from 'react-redux';
 import Profile from './Components/Profile.jsx';
 import SellerProfile from './Components/SellerProfile.jsx';
 import AboutUs from './Components/AboutUs.jsx';
+import MoreDetails from './Components/Inventory/User/MoreDetails/MoreDetails.jsx';
+import ProductBrowsePage from './Components/ProductBrowse.jsx';
+import ProductDetailPage from './Components/ProductDetails.jsx';
+import CartPage from './Components/Cart.jsx';
+import OrderList from './Components/OrderList.jsx';
+import OrderDetails from './Components/OrderDetails.jsx';
 
 
 
@@ -55,15 +61,20 @@ createRoot(document.getElementById('root')).render(
             <Route path='/manageFertilizers' element={<FertilizerList />}/>
             <Route path='/addFertilizers' element={<AddFertilizerForm />}/>
             <Route path='/updateFertilizer/:id' element={<UpdateFertilizerForm />}/>
+            <Route path='/allProducts' element={<ProductBrowsePage />}/>
+            <Route path='/productDetails/:id' element={<ProductDetailPage />}/>
+            <Route path='/mycart' element={<CartPage />}/>
+            <Route path='/orders' element={<OrderList />}/>
+            <Route path='/orders/:orderId' element={<OrderDetails />}/>
 
             {/*Kavishka*/}
              {/*Admin Side*/}
           <Route path="/inventory" element={<DashBoard />} />
           <Route path="/additem" element={<Additem />} />
-      
           <Route path="/updateitem/:id" element={<UpdateItem />} />
           {/*User Side*/}
-          <Route path="/userdetailsdash" element={<DetailsDash />} />
+          <Route path="/allPosts" element={<DetailsDash />} />
+          <Route path="/moreDetails" element={<MoreDetails />} />
 
           </Routes>
         </main>

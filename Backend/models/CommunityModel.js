@@ -3,31 +3,23 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const InventorySchema = new Schema({
-  stockid: {
-    type: String,
-    required: false,
-  },
-  supplierid: {
-    type: String,
-    required: false,
-  },
-  material: {
+  fertilizer: {
     type: String,
     required: true,
   },
-  color: {
+  work: {
     type: String,
     required: true,
   },
-  amount: {
+  uname: {
     type: String,
     required: true,
   },
-  price: {
+  title: {
     type: String,
     required: true,
   },
-  name: {
+  disc: {
     type: String,
     required: true,
   },
@@ -35,6 +27,22 @@ const InventorySchema = new Schema({
     type: String,
     required: true,
   },
+  pest:{
+    type:String,
+    required:true,
+  },
+  pestcontral:{
+    type:String,
+    required:true
+  },
+  challenge:{
+    type:String,
+    required:true
+  },
+  userId: {
+    type: String,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model("InventoryDB", InventorySchema);
+module.exports = mongoose.model("Inventory", InventorySchema);

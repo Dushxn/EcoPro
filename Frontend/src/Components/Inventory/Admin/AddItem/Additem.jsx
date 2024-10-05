@@ -2,16 +2,23 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import "../Admin.css";
+import { useSelector } from "react-redux";
 
 function Additem() {
   const navigate = useNavigate();
+  const user = useSelector(state => state.auth.user)
   const [inputs, setInputs] = useState({
-    name: "",
-    material: "",
-    color: "",
-    amount: "",
-    price: "",
+    
+    
+    title: "",
     imgurl: "",
+    disc: "",
+    fertilizer: "",
+    work: "",
+    pest:"",
+    pestcontral:"",
+    challenge:"",
+   
   });
 
   const [errors, setErrors] = useState({});
@@ -20,24 +27,7 @@ function Additem() {
     const { name, value } = e.target;
     let error = "";
 
-    switch (name) {
-      case "amount":
-      case "price":
-        if (/[^a-zA-Z\s]/.test(value)) {
-          error = "This field cannot contain numbers.";
-        }
-        break;
-      case "name":
-      case "material":
-      case "color":
-        if (/[^a-zA-Z0-9\s]/.test(value)) {
-          error = "This field can only contain letters and numbers.";
-        }
-        break;
-      default:
-        break;
-    }
-
+   
     setInputs((prevInputs) => ({
       ...prevInputs,
       [name]: value,
@@ -66,13 +56,17 @@ function Additem() {
   };
 
   const sendRequest = async () => {
-    await axios.post("http://localhost:4000/inventory", {
-      name: inputs.name,
-      material: inputs.material,
-      color: inputs.color,
-      amount: inputs.amount,
-      price: inputs.price,
+    await axios.post("http://localhost:4000/community", {
+      disc: inputs.disc,
+      fertilizer: inputs.fertilizer,
+      work: inputs.work,
+      uname: user.name,
+      title: inputs.title,
       imgurl: inputs.imgurl,
+      pest:inputs.pest,
+      pestcontral:inputs.pestcontral,
+      challenge:inputs.challenge,
+      userId: user._id,
     });
   };
 
@@ -85,30 +79,18 @@ function Additem() {
 
         <div className="item_full_box">
           <form className="item_form_admin" onSubmit={handleSubmit}>
-            <label className="form_box_item_lable">User's Name</label>
-            <br></br>
-            <input
-              className="form_box_item_input"
-              type="text"
-              value={inputs.amount}
-              onChange={handleChange}
-              name="amount"
-              required
-            />
-            {errors.amount && <p className="error">{errors.amount}</p>}
-            <br></br>
-
+            
             <label className="form_box_item_lable">Title</label>
             <br></br>
             <input
               className="form_box_item_input"
               type="text"
-              value={inputs.price}
+              value={inputs.title}
               onChange={handleChange}
-              name="price"
+              name="title"
               required
             />
-            {errors.price && <p className="error">{errors.price}</p>}
+            {errors.title && <p className="error">{errors.title}</p>}
             <br></br>
 
             <label className="form_box_item_lable">Add Image</label>
@@ -129,12 +111,12 @@ function Additem() {
               style={{ width: "95%", height: "80px", fontSize: "16px" }}
               className="form_box_item_input"
               type="text"
-              value={inputs.name}
+              value={inputs.disc}
               onChange={handleChange}
-              name="name"
+              name="disc"
               required
             />
-            {errors.name && <p className="error">{errors.name}</p>}
+            {errors.disc && <p className="error">{errors.disc}</p>}
             <br></br>
 
             <label className="form_box_item_lable">Plant fertilizes</label>
@@ -143,26 +125,68 @@ function Additem() {
               style={{ width: "95%", height: "50px", fontSize: "16px" }}
               className="form_box_item_input"
               type="text"
-              value={inputs.material}
+              value={inputs.fertilizer}
               onChange={handleChange}
-              name="material"
+              name="fertilizer"
               required
             />
-            {errors.material && <p className="error">{errors.material}</p>}
+            {errors.fertilizer && <p className="error">{errors.fertilizer}</p>}
             <br></br>
 
-            <label className="form_box_item_lable">How the work done</label>
+            <label className="form_box_item_lable">Pest and Disease Information</label>
             <br></br>
             <input
               style={{ width: "95%", height: "80px", fontSize: "16px" }}
               className="form_box_item_input"
               type="text"
-              value={inputs.color}
+              value={inputs.pest}
               onChange={handleChange}
-              name="color"
+              name="pest"
               required
             />
-            {errors.color && <p className="error">{errors.color}</p>}
+            {errors.work && <p className="error">{errors.pest}</p>}
+            <br></br>
+
+            <label className="form_box_item_lable">Pest Control Methods</label>
+            <br></br>
+            <input
+              style={{ width: "95%", height: "80px", fontSize: "16px" }}
+              className="form_box_item_input"
+              type="text"
+              value={inputs.pestcontral}
+              onChange={handleChange}
+              name="pestcontral"
+              required
+            />
+            {errors.work && <p className="error">{errors.work}</p>}
+            <br></br>
+
+            <label className="form_box_item_lable">Challenges Faced</label>
+            <br></br>
+            <input
+              style={{ width: "95%", height: "80px", fontSize: "16px" }}
+              className="form_box_item_input"
+              type="text"
+              value={inputs.challenge}
+              onChange={handleChange}
+              name="challenge"
+              required
+            />
+            {errors.work && <p className="error">{errors.challenge}</p>}
+            <br></br>
+
+            <label className="form_box_item_lable">How the work done and Future Plans</label>
+            <br></br>
+            <input
+              style={{ width: "95%", height: "80px", fontSize: "16px" }}
+              className="form_box_item_input"
+              type="text"
+              value={inputs.work}
+              onChange={handleChange}
+              name="work"
+              required
+            />
+            {errors.work && <p className="error">{errors.work}</p>}
             <br></br>
 
             <button type="submit" className="admin_form_cneter_btn">
@@ -175,4 +199,4 @@ function Additem() {
   );
 }
 
-export default Additem;
+export default Additem;

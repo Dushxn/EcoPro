@@ -8,13 +8,13 @@ import "../Admin.css";
 function UpdateItem() {
   const [inputs, setInputs] = useState({});
   const history = useNavigate();
-  const id = useParams().id;
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchHandler = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/inventory/${id}`
+          `http://localhost:4000/community/${id}`
         );
         setInputs(response.data.inven);
       } catch (error) {
@@ -25,37 +25,42 @@ function UpdateItem() {
   }, [id]);
 
   const sendRequest = async () => {
-    await axios
-      .put(`http://localhost:4000/inventory/${id}`, {
-        name: String(inputs.name),
-        material: String(inputs.material),
-        color: String(inputs.color),
-        amount: String(inputs.amount),
-        price: String(inputs.price),
+    try {
+      await axios.put(`http://localhost:4000/community/${id}`, {
+        uname: String(inputs.uname),         
+        title: String(inputs.title),          
         imgurl: String(inputs.imgurl),
-      })
-      .then((res) => res.data);
+        disc: String(inputs.disc),
+        fertilizer: String(inputs.fertilizer),
+        pest: String(inputs.pest),
+        pestcontral: String(inputs.pestcontral),
+        challenge: String(inputs.challenge),
+        work: String(inputs.work),
+      });
+    } catch (error) {
+      console.error("Error updating details:", error);
+    }
   };
+
   const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputs);
-
-    sendRequest().then(() => {
-      window.alert("Update successfully!");
-      history("/inventory");
-    });
+    await sendRequest();
+    window.alert("Update successfully!");
+    history("/inventory"); // Redirect after successful update
   };
+
   return (
     <div>
       <div className="children_div_admin">
         <h1 className="topic_inventory">
-          Add Community Details <span className="sub_topic_inventory"> </span>{" "}
+          Update Community Details <span className="sub_topic_inventory"> </span>
         </h1>
         <div className="item_full_box">
           <form className="item_form_admin" onSubmit={handleSubmit}>
@@ -65,9 +70,9 @@ function UpdateItem() {
             <input
               className="form_box_item_input"
               type="text"
-              value={inputs.amount}
+              value={inputs.uname || ""}
               onChange={handleChange}
-              name="amount"
+              name="uname"
               required
             />
             <br></br>
@@ -77,12 +82,11 @@ function UpdateItem() {
             <input
               className="form_box_item_input"
               type="text"
-              value={inputs.price}
+              value={inputs.title || ""}
               onChange={handleChange}
-              name="price"
+              name="title"
               required
             />
-
             <br></br>
 
             <label className="form_box_item_lable">Add Image</label>
@@ -90,10 +94,10 @@ function UpdateItem() {
             <input
               className="form_box_item_input"
               type="text"
-              required
-              value={inputs.imgurl}
+              value={inputs.imgurl || ""}
               onChange={handleChange}
               name="imgurl"
+              required
             />
             <br></br>
 
@@ -103,9 +107,9 @@ function UpdateItem() {
               style={{ width: "95%", height: "80px", fontSize: "16px" }}
               className="form_box_item_input"
               type="text"
-              value={inputs.name}
+              value={inputs.disc || ""}
               onChange={handleChange}
-              name="name"
+              name="disc"
               required
             />
             <br></br>
@@ -116,26 +120,61 @@ function UpdateItem() {
               style={{ width: "95%", height: "50px", fontSize: "16px" }}
               className="form_box_item_input"
               type="text"
-              value={inputs.material}
+              value={inputs.fertilizer || ""}
               onChange={handleChange}
-              name="material"
+              name="fertilizer"
               required
             />
             <br></br>
 
-
-
-
-
-            <label className="form_box_item_lable">How the work done</label>
+            <label className="form_box_item_lable">Pest and Disease Information</label>
             <br></br>
             <input
               style={{ width: "95%", height: "80px", fontSize: "16px" }}
               className="form_box_item_input"
               type="text"
-              value={inputs.color}
+              value={inputs.pest || ""}
               onChange={handleChange}
-              name="color"
+              name="pest"
+              required
+            />
+            <br></br>
+
+            <label className="form_box_item_lable">Pest Control Methods</label>
+            <br></br>
+            <input
+              style={{ width: "95%", height: "80px", fontSize: "16px" }}
+              className="form_box_item_input"
+              type="text"
+              value={inputs.pestcontral || ""}
+              onChange={handleChange}
+              name="pestcontral"
+              required
+            />
+            <br></br>
+
+            <label className="form_box_item_lable">Challenges Faced</label>
+            <br></br>
+            <input
+              style={{ width: "95%", height: "80px", fontSize: "16px" }}
+              className="form_box_item_input"
+              type="text"
+              value={inputs.challenge || ""}
+              onChange={handleChange}
+              name="challenge"
+              required
+            />
+            <br></br>
+
+            <label className="form_box_item_lable">How the work done and Future Plans</label>
+            <br></br>
+            <input
+              style={{ width: "95%", height: "80px", fontSize: "16px" }}
+              className="form_box_item_input"
+              type="text"
+              value={inputs.work || ""}
+              onChange={handleChange}
+              name="work"
               required
             />
             <br></br>

@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import "../Admin.css";
+import { useSelector } from "react-redux";
 
-const URL = "http://localhost:4000/inventory";
+const URL = "http://localhost:4000/community";
 
 const fetchHandler = async () => {
   return await axios.get(URL).then((res) => res.data);
@@ -13,30 +14,25 @@ const fetchHandler = async () => {
 
 function DashBoard() {
   const [inven, setInven] = useState([]);
+  const [filteredInven, setFilteredInven] = useState([]); // For storing filtered results
+  const [searchQuery, setSearchQuery] = useState("");
+  const [noResults, setNoResults] = useState(false);
+  const user = useSelector(state => state.auth.user)
 
   useEffect(() => {
-    fetchHandler().then((data) => setInven(data.inven));
-  }, []);
-
-  const [totalAmount, setTotalAmount] = useState(0);
-  useEffect(() => {
-    let sum = 0;
-    inven.forEach((item) => {
-      sum += parseInt(item.price);
+    fetchHandler().then((data) => {
+      setInven(data.inven);
+      setFilteredInven(data.inven.filter(item => item.userId == user._id)); // Initially, set filtered data as the original data
     });
-    setTotalAmount(sum);
-  }, [inven]);
+  }, []);
 
   const history = useNavigate();
   const deleteHandler = async (_id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this Details?"
-    );
-
+    const confirmed = window.confirm("Are you sure you want to delete this Details?");
     if (confirmed) {
       try {
         await axios.delete(`${URL}/${_id}`);
-        window.alert("details deleted successfully!");
+        window.alert("Details deleted successfully!");
         history("/inventory");
         window.location.reload();
       } catch (error) {
@@ -48,121 +44,92 @@ function DashBoard() {
   const ComponentsRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => ComponentsRef.current,
-    DocumentTitle: " Details Report",
-    onafterprint: () => alert(" Details Report Successfully Download !"),
+    DocumentTitle: "Details Report",
+    onafterprint: () => alert("Details Report Successfully Downloaded!"),
   });
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [noResults, setNoResults] = useState(false);
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
 
-  const handleSearch = () => {
-    fetchHandler().then((data) => {
-      const filtered = data.inven.filter((inven) =>
-        Object.values(inven).some((field) =>
-          field.toString().toLowerCase().includes(searchQuery.toLowerCase())
+    if (query) {
+      const filtered = inven.filter((item) =>
+        Object.values(item).some((field) =>
+          field.toString().toLowerCase().includes(query.toLowerCase())
         )
       );
-      setInven(filtered);
+      setFilteredInven(filtered);
       setNoResults(filtered.length === 0);
-    });
+    } else {
+      setFilteredInven(inven); // Reset to the original data if the search query is empty
+      setNoResults(false);
+    }
   };
 
-  const [currentDate, setCurrentDate] = useState("");
-  useEffect(() => {
-    const getCurrentDate = () => {
-      const dateObj = new Date();
-      const month = dateObj.getMonth() + 1;
-      const day = String(dateObj.getDate()).padStart(2, "0");
-      const year = dateObj.getFullYear();
-      const formattedDate = `${year}-${month}-${day}`;
-      setCurrentDate(formattedDate);
-    };
-
-    getCurrentDate();
-    const intervalId = setInterval(getCurrentDate, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const availableItemCount = inven.length;
-
   return (
-    <div>
-      <div className="children_div_admin">
-        <div className="dash_button_set">
-          {/* Tailwind styled button */}
-          
-        </div>
+    <div className="container mx-auto p-6 mb-40 mt-10">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">Community</h2>
 
-        <div className="tbl_con_admin" ref={ComponentsRef}>
-          <h1 className="topic_inventory">
-            Community Details <span className="sub_topic_inventory"> </span>{" "}
-          </h1>
-
-          <div className="flex justify-end mb-4 ">
-            <button
-              className="bg-black font-bold py-2 px-4 rounded text-green-400"
-              onClick={() => history("/additem")}
-            >
-              Add New Item
-            </button>
-          </div>
-
-          <table className="table_details_admin mb-20">
-            <thead>
-              <tr className="admin_tbl_tr">
-                <th className="admin_tbl_th">User's Name</th>
-                <th className="admin_tbl_th">Plant title</th>
-                <th className="admin_tbl_th">Image</th>
-                <th className="admin_tbl_th">Plant Description</th>
-                <th className="admin_tbl_th">Plant fertilizes</th>
-                <th className="admin_tbl_th">How the work done</th>
-                <th className="admin_tbl_th">Action</th>
-              </tr>
-            </thead>
-            {noResults ? (
-              <div>
-                <br></br>
-                <h1 className="con_topic">
-                  No <span className="clo_us"> Found</span>{" "}
-                </h1>
-              </div>
-            ) : (
-              <tbody>
-                {inven.map((item, index) => (
-                  <tr className="admin_tbl_tr" key={index}>
-                    <td className="admin_tbl_td">{item.amount}</td>
-                    <td className="admin_tbl_td">{item.price}</td>
-                    <td className="admin_tbl_td">
-                      <img
-                        src={item.imgurl}
-                        alt="img"
-                        className="img_admin_tbl"
-                      />
-                    </td>
-                    <td className="admin_tbl_td">{item.name}</td>
-                    <td className="admin_tbl_td">{item.material}</td>
-                    <td className="admin_tbl_td">{item.color}</td>
-                    <td className="admin_tbl_td">
-                      <button
-                        onClick={() => deleteHandler(item._id)}
-                        className="btn_dash_admin_dlt mb-5"
-                      >
-                        Delete
-                      </button>{" "}
-                      <Link
-                        to={`/updateitem/${item._id}`}
-                        className="btn_dash_admin"
-                      >
-                        Update
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            )}
-          </table>
-        </div>
+        <Link to="/additem">
+          <button
+            style={{
+              padding: "10px 20px",
+              fontSize: "16px",
+              backgroundColor: "#4CAF50",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              transition: "background-color 0.3s",
+            }}
+            onMouseOver={(e) => (e.target.style.backgroundColor = "#45a049")}
+            onMouseOut={(e) => (e.target.style.backgroundColor = "#4CAF50")}
+            className="mt-14 mb-15"
+          >
+            Add item
+          </button>
+        </Link>
       </div>
+      <table className="min-w-full bg-white border border-black shadow-md rounded-lg overflow-hidden">
+  <thead className="bg-gray-800 text-white">
+    <tr>
+      <th className="py-4 px-6 font-semibold">Title</th>
+      <th className="py-4 px-6 font-semibold">Image</th>
+      <th className="py-4 px-6 font-semibold">Description</th>
+      <th className="py-4 px-6 font-semibold">Pest and Diseases</th>
+      <th className="py-4 px-6 font-semibold">Fertilizers</th>
+      <th className="py-4 px-6 font-semibold">Challenges Faced</th>
+      <th className="py-4 px-6 font-semibold">Work Done & Future Plans</th>
+      <th className="py-4 px-6 font-semibold">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {filteredInven.map((item, index) => (
+      <tr key={index} className="border-t border-gray-200 hover:bg-gray-100">
+        <td className="py-3 px-4">{item.title}</td>
+        <td className="py-3 px-4">
+          <img src={item.imgurl} alt="img" className="img_admin_tbl" />
+        </td>
+        <td className="py-3 px-4">{item.disc}</td>
+        <td className="py-3 px-4">{item.pest}</td>
+        <td className="py-3 px-4">{item.fertilizer}</td>
+        <td className="py-3 px-4">{item.challenge}</td>
+        <td className="py-3 px-4">{item.work}</td>
+        <td className="py-3 px-4">
+  <button onClick={() => deleteHandler(item._id)} className="bg-black text-green-400 py-1 mr-1 px-4 rounded-md hover:bg-gray-700 transition duration-200 ease-in-out">
+    Delete
+  </button>
+  <Link to={`/updateitem/${item._id}`} className="bg-black text-green-400 py-2 px-4 rounded-md hover:bg-gray-700 transition duration-200 ease-in-out">
+    Update
+  </Link>
+</td>
+
+      </tr>
+    ))}
+  </tbody>
+</table>
+
     </div>
   );
 }

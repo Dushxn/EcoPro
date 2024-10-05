@@ -18,7 +18,6 @@
   background: #1b4850; /* Color of the scrollbar handle on hover */
 }
 
-
 .dash_button_set {
   display: flex;
   justify-content: space-between;
@@ -50,10 +49,11 @@
   text-transform: capitalize;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
+
 .btn_dash_admin:hover {
   background-color: white;
-  color: #1b4850;
-  border: 2px solid #1b4850;
+  color: #a3f1ff;
+  border: 2px solid #000000;
 }
 
 .serch_inpt {
@@ -74,13 +74,14 @@
 .sub_topic_inventory {
   color: #1b4850;
 }
+
 .tbl_con_admin {
   margin-top: 25px;
   padding: 0 10px;
 }
 
 .summry_admindsh {
-  background-color: #1b4850;
+  background-color: #8feeff;
   padding: 20px 15px;
   border-radius: 5px;
   width: 300px;
@@ -92,33 +93,47 @@
   font-size: 25px;
   color: white;
 }
+
 .table_details_admin {
   border-collapse: collapse;
   width: 100%;
   text-align: center;
   text-transform: capitalize;
+  border-radius: 20px;
+  overflow: hidden; /* Ensures rounded corners are respected */
 }
 
 .table_details_admin .admin_tbl_th,
 .table_details_admin .admin_tbl_td {
-  border: 2px solid #000000;
-  padding: 8px;
+  border: 1px solid rgba(211, 211, 211, 0.5); /* Light gray border */
+  padding: 6px; /* Smaller padding for smaller rows */
 }
 
 .table_details_admin .admin_tbl_th {
-  background-color: #000000;
-  color: white;
+  background-color: #b3ffb3; /* Dark green header */
+  color: black;
   font-size: 18px;
+  font-weight: bold;
+}
+
+.table_details_admin .admin_tbl_td {
+  background-color: rgba(255, 255, 255, 0.2); /* Light background for table cells */
+  color: #000; /* Text color */
+}
+
+.table_details_admin tr:hover {
+  background-color: #f5f5f5; /* Light gray background on hover */
 }
 
 .img_admin_tbl {
-  width: 150px;
-  height: 150px;
+  width: 100px; /* Smaller image size */
+  height: 100px; /* Smaller image size */
   padding: 0;
   border-radius: 5px;
   margin: 0;
 }
-/*Add Item*/
+
+/* Add Item */
 .item_full_box {
   display: flex;
   justify-content: center;
@@ -126,6 +141,7 @@
   margin: 25px 0;
   font-family: "Roboto", sans-serif;
 }
+
 .item_form_admin {
   border: 2px solid #1b4850;
   padding: 25px;
@@ -133,11 +149,13 @@
   width: 450px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
+
 .form_box_item_lable {
   font-weight: bold;
   text-transform: capitalize;
   font-size: 18px;
 }
+
 .form_box_item_input {
   width: 95%;
   font-size: 17px;
@@ -146,6 +164,7 @@
   margin: 8px 0;
   border: 1.5px solid #1b4850;
 }
+
 .admin_form_cneter_btn {
   background-color: #1b4850;
   color: white;

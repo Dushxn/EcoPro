@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 //Insert Controller
-const InventoryController = require("../Controllers/InventoryControllers");
+const InventoryController = require("../Controllers/CommunityControllers");
 
 router.get("/", InventoryController.getAllInventory);
 router.post("/", InventoryController.addInventory);
